@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/shauryaps-08/chisel-ci:latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Copy in project template (Makefile, build.sc, scalafix/scalafmt configs)
+        run: |
+          cp /opt/chisel-ci-template/Makefile ./
+          cp /opt/chisel-ci-template/build.sc ./
+          cp /opt/chisel-ci-template/.scalafix.conf ./
+          cp /opt/chisel-ci-template/.scalafmt.conf ./
+          ln -s /opt/playground ../playground
+
+      - name: make check
+        env:
+          JAVA_OPTS: "-Xmx4g -Xss8m"
+        run: make check
+
+      - name: make lint
+        run: make lint
