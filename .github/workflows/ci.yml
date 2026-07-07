@@ -18,6 +18,7 @@ jobs:
           cp /opt/chisel-ci-template/build.sc ./
           cp /opt/chisel-ci-template/.scalafix.conf ./
           cp /opt/chisel-ci-template/.scalafmt.conf ./
+          cp /opt/chisel-ci-template/.mill-version ./
           ln -s /opt/playground ../playground
 
       - name: make check
